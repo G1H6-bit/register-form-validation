@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Create your account — secure registration with real-time validation." />
+  <title>Create Account</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+  />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Animated Background ── -->
+  <div class="bg" aria-hidden="true">
+    <div class="grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div id="particles"></div>
+  </div>
+
+  <!-- ── Main Card ── -->
+  <div class="wrapper">
+    <div class="card" role="main">
+
+      <!-- Success Overlay (shown after submit) -->
+      <div class="success-overlay" id="successOverlay" role="alert" aria-live="polite">
+        <div class="check-ring">
+          <i class="ti ti-check"></i>
+        </div>
+        <h2>Account Created! 🎉</h2>
+        <p>
+          Welcome aboard. Your registration was successful<br />
+          and your account is ready to use.
+        </p>
+        <div class="summary-pills" id="summaryPills"></div>
+        <button class="btn-reset" onclick="resetForm()">
+          <i class="ti ti-arrow-left" style="vertical-align:-2px; margin-right:4px;"></i>
+          Start over
+        </button>
+      </div>
+
+      <!-- Header -->
+      <div class="header">
+        <div class="logo" aria-hidden="true">
+          <i class="ti ti-user-plus" style="font-size:1.4rem; color:#fff;"></i>
+        </div>
+        <h1>Create Account</h1>
+        <p>Fill in your details to get started</p>
+      </div>
+
+      <!-- Progress Steps -->
+      <div class="progress-wrap" aria-label="Form progress">
+        <div class="progress-steps">
+          <div class="step-dot active" id="dot-1" aria-label="Step 1: Personal info">1</div>
+          <div class="step-line"       id="line-1"></div>
+          <div class="step-dot"        id="dot-2" aria-label="Step 2: Account setup">2</div>
+          <div class="step-line"       id="line-2"></div>
+          <div class="step-dot"        id="dot-3" aria-label="Step 3: Final details">3</div>
+        </div>
+        <div class="progress-label" id="progressLabel">Step 1 of 3 — Personal Info</div>
+      </div>
+
+      <form id="registerForm" novalidate>
+
+        <!-- ══════════════════════════════════════════
+             PANEL 1 — Personal Info
+        ══════════════════════════════════════════ -->
+        <div class="form-panel active" id="panel-1">
+          <div class="panel-title">
+            <i class="ti ti-user" style="font-size:14px;"></i> Personal Info
+          </div>
+
+          <!-- First Name + Last Name -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <div class="input-wrap">
+                <i class="ti ti-user icon-left" aria-hidden="true"></i>
+                <input
+                  type="text"
+                  id="firstName"
+                  placeholder="John"
+                  autocomplete="given-name"
+                  aria-required="true"
+                />
+                <span class="status-icon" id="si-firstName" aria-hidden="true"></span>
+              </div>
+              <div class="error-msg" id="err-firstName" role="alert"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <div class="input-wrap">
+                <i class="ti ti-user icon-left" aria-hidden="true"></i>
+                <input
+                  type="text"
+                  id="lastName"
+                  placeholder="Doe"
+                  autocomplete="family-name"
+                  aria-required="true"
+                />
+                <span class="status-icon" id="si-lastName" aria-hidden="true"></span>
+              </div>
+              <div class="error-msg" id="err-lastName" role="alert"></div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrap">
+              <i class="ti ti-mail icon-left" aria-hidden="true"></i>
+              <input
+                type="email"
+                id="email"
+                placeholder="john@example.com"
+                autocomplete="email"
+                aria-required="true"
+              />
+              <span class="status-icon" id="si-email" aria-hidden="true"></span>
+            </div>
+            <div class="error-msg" id="err-email" role="alert"></div>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <div class="input-wrap">
+              <span class="phone-prefix">🌍</span>
+              <input
+                type="tel"
+                id="phone"
+                placeholder="+20 100 000 0000"
+                autocomplete="tel"
+                aria-required="true"
+              />
+              <span class="status-icon" id="si-phone" aria-hidden="true"></span>
+            </div>
+            <div class="error-msg" id="err-phone" role="alert"></div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-next" onclick="goNext(1)">
+              Continue <i class="ti ti-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+        <!-- /panel-1 -->
+
+
+        <!-- ══════════════════════════════════════════
+             PANEL 2 — Account Setup
+        ══════════════════════════════════════════ -->
+        <div class="form-panel" id="panel-2">
+          <div class="panel-title">
+            <i class="ti ti-lock" style="font-size:14px;"></i> Account Setup
+          </div>
+
+          <!-- Username -->
+          <div class="form-group">
+            <label for="username">Username</label>
+            <div class="input-wrap">
+              <i class="ti ti-at icon-left" aria-hidden="true"></i>
+              <input
+                type="text"
+                id="username"
+                placeholder="johndoe_99"
+                autocomplete="username"
+                aria-required="true"
+              />
+              <span class="status-icon" id="si-username" aria-hidden="true"></span>
+            </div>
+            <div class="error-msg" id="err-username" role="alert"></div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrap has-toggle">
+              <i class="ti ti-lock icon-left" aria-hidden="true"></i>
+              <input
+                type="password"
+                id="password"
+                placeholder="Create a strong password"
+                autocomplete="new-password"
+                aria-required="true"
+              />
+              <span class="status-icon" id="si-password" aria-hidden="true"></span>
+              <i
+                class="ti ti-eye icon-right"
+                id="togglePwd"
+                onclick="togglePassword('password','togglePwd')"
+                aria-label="Toggle password visibility"
+                role="button"
+                tabindex="0"
+              ></i>
+            </div>
+            <!-- Strength meter -->
+            <div class="strength-row" aria-label="Password strength indicator">
+              <div class="strength-seg" id="seg-1"></div>
+              <div class="strength-seg" id="seg-2"></div>
+              <div class="strength-seg" id="seg-3"></div>
+              <div class="strength-seg" id="seg-4"></div>
+            </div>
+            <div class="strength-text" id="strengthText" aria-live="polite"></div>
+            <div class="error-msg" id="err-password" role="alert"></div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="confirm">Confirm Password</label>
+            <div class="input-wrap has-toggle">
+              <i class="ti ti-lock-check icon-left" aria-hidden="true"></i>
+              <input
+                type="password"
+                id="confirm"
+                placeholder="Repeat your password"
+                autocomplete="new-password"
+                aria-required="true"
+              />
+              <span class="status-icon" id="si-confirm" aria-hidden="true"></span>
+              <i
+                class="ti ti-eye icon-right"
+                id="toggleCfm"
+                onclick="togglePassword('confirm','toggleCfm')"
+                aria-label="Toggle confirm password visibility"
+                role="button"
+                tabindex="0"
+              ></i>
+            </div>
+            <div class="error-msg" id="err-confirm" role="alert"></div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-back" onclick="goBack(2)">
+              <i class="ti ti-arrow-left"></i> Back
+            </button>
+            <button type="button" class="btn-next" onclick="goNext(2)">
+              Continue <i class="ti ti-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+        <!-- /panel-2 -->
+
+
+        <!-- ══════════════════════════════════════════
+             PANEL 3 — Final Details
+        ══════════════════════════════════════════ -->
+        <div class="form-panel" id="panel-3">
+          <div class="panel-title">
+            <i class="ti ti-sparkles" style="font-size:14px;"></i> Final Details
+          </div>
+
+          <!-- Role -->
+          <div class="form-group">
+            <label for="role">Your Role</label>
+            <div class="input-wrap">
+              <i class="ti ti-briefcase icon-left" aria-hidden="true"></i>
+              <select id="role" aria-required="true">
+                <option value="">— Select your role —</option>
+                <option>Front-End Developer</option>
+                <option>Back-End Developer</option>
+                <option>Full-Stack Developer</option>
+                <option>UI/UX Designer</option>
+                <option>Cybersecurity Analyst</option>
+                <option>Product Manager</option>
+                <option>Student</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="error-msg" id="err-role" role="alert"></div>
+          </div>
+
+          <!-- Bio (optional) -->
+          <div class="form-group">
+            <label for="bio">
+              Short Bio
+              <span style="font-weight:400; text-transform:none; letter-spacing:0; color:var(--faint); font-size:0.7rem;">(optional)</span>
+            </label>
+            <div class="input-wrap">
+              <i class="ti ti-pencil icon-left" style="top:14px; transform:none;" aria-hidden="true"></i>
+              <textarea
+                id="bio"
+                placeholder="Tell us a bit about yourself…"
+                maxlength="200"
+                autocomplete="off"
+              ></textarea>
+            </div>
+            <div class="char-count" id="charCount">0 / 200</div>
+            <div class="error-msg" id="err-bio" role="alert"></div>
+          </div>
+
+          <!-- Terms -->
+          <div
+            class="terms-row"
+            id="termsRow"
+            onclick="toggleTerms()"
+            role="checkbox"
+            tabindex="0"
+            aria-checked="false"
+            onkeydown="if(event.key==='Enter'||event.key===' ') toggleTerms()"
+          >
+            <div class="custom-checkbox" id="checkboxUi">
+              <i class="ti ti-check"></i>
+            </div>
+            <span>
+              I agree to the
+              <a href="#" onclick="return false;">Terms of Service</a>
+              and
+              <a href="#" onclick="return false;">Privacy Policy</a>
+            </span>
+          </div>
+          <!-- Hidden real checkbox — custom UI above controls it -->
+          <input type="checkbox" id="terms" aria-hidden="true" />
+          <div class="error-msg" id="err-terms" role="alert"></div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-back" onclick="goBack(3)">
+              <i class="ti ti-arrow-left"></i> Back
+            </button>
+            <button type="submit" class="btn-submit" id="submitBtn">
+              <span class="spinner" aria-hidden="true"></span>
+              <span class="btn-label">
+                Create Account <i class="ti ti-rocket"></i>
+              </span>
+            </button>
+          </div>
+
+          <!-- FIX 3: "Already have an account?" link -->
+          <div class="signin-link">
+            Already have an account?
+            <a href="#">Sign in instead</a>
+          </div>
+
+        </div>
+        <!-- /panel-3 -->
+
+      </form>
+    </div><!-- /card -->
+  </div><!-- /wrapper -->
+
+  <!-- JavaScript (loaded last for performance) -->
+  <script src="script.js"></script>
+
+</body>
+</html>
